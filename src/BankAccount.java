@@ -142,15 +142,8 @@ public class BankAccount {
 
 
 
-	//public void listAccounts(String clientID) {}
-	public void listAllAccounts() {
-		
-			System.out.println(this.clientID + "\t" + this.accountNo + "\t" +this.accountType + "\t" + this.ClientName + "\t" + this.Contact );
-			
-		
-	}
 	
-	public void listAccounts(String clientID) {
+	public void listAccounts() {
 
 	
 					System.out.println(this.clientID + "\t" + this.accountNo + "\t" +this.accountType + "\t" + this.ClientName + "\t" + this.Contact );
@@ -172,7 +165,7 @@ public class BankAccount {
 		return accountnumber;
 	}
 	
-	public boolean isexistusername(String username) {
+	public boolean isExistUsername(String username) {
 		
 				if((this.getClientID()).equals(username)){
 					return true;
@@ -250,53 +243,66 @@ public class BankAccount {
 	}
 	
 	public void viewaAccountDetails(ArrayList<BankAccount> accounts,String clientID) {
-		for( int i=0;i<accounts.size();i++) {
-			if (accounts.get(i) instanceof BankAccount) {
-				if((((BankAccount) accounts.get(i)).getClientID()).equals(clientID))
-					System.out.println(accounts.get(i).toString());			
-				}
+		
+		for(BankAccount a:accounts)
+			if (a !=null && (a.getClass().getName()).equals("BankAccount"))
+			{
+				if((((BankAccount) a).getClientID()).equals(clientID))
+					System.out.println(((BankAccount)a).toString() + "\n");
 			}
+			
 	}
 	
 	public boolean makeTransfer(ArrayList<BankAccount> accounts,String clientID,int sourceAccountNo,int destAccountNo,int amount) {
 		boolean status=false;
-		for( int i=0;i<accounts.size();i++) {
-			if (accounts.get(i) instanceof BankAccount) {
-				if(((BankAccount) accounts.get(i)).getAccountNo() == destAccountNo) {
+		for(BankAccount a:accounts) {
+			if (a !=null && (a.getClass().getName()).equals("BankAccount"))
+			{
+				if(((BankAccount) a).getAccountNo() == destAccountNo) {
 					status=true;
-				}
-				else
-				{
-					System.out.println("Destination account doesnot exist");
-					return false;
 				}
 			}
 		}
+		if(status=false)
+		{
+			System.out.println("Destination account doesnot exist");
+			return false;
+		}
+
 					
-		for(int i=0;i<accounts.size();i++) {
-			if (accounts.get(i) instanceof BankAccount) {
-				if(((BankAccount) accounts.get(i)).getClientID().equals(clientID) && 
-						((BankAccount) accounts.get(i)).getAccountNo() == sourceAccountNo &&
-						((BankAccount) accounts.get(i)).getCurrentBalance() < amount)
+		for(BankAccount a:accounts) {
+			if (a !=null && (a.getClass().getName()).equals("BankAccount"))
+			{
+				if(((BankAccount) a).getClientID().equals(clientID) && 
+						((BankAccount) a).getAccountNo() == sourceAccountNo ) {
 					
-				{
-					System.out.println("Your account balance is less than the amoun to be transfered. Cant do the transaction");
-					return false;
+				
+						if(((BankAccount) a).getCurrentBalance() < amount)
+					
+						{
+							System.out.println("Your account balance is less than the amoun to be transfered. Cant do the transaction");
+							return false;
+						}
+
+						else if(((BankAccount) a).getCurrentBalance() >= amount)
+						{
+							((BankAccount)a).setCurrentBalance((((BankAccount)a).getCurrentBalance())-amount);
+							((BankAccount) a).setPreviousTransaction(- amount);
+							status=true;
+							return true;
+						}
 				}
-				else if(((BankAccount) accounts.get(i)).getClientID().equals(clientID) && 
-						((BankAccount) accounts.get(i)).getAccountNo() == sourceAccountNo &&
-						((BankAccount) accounts.get(i)).getCurrentBalance() >= amount)
+			}
+		}
+		for(BankAccount a:accounts) {
+			if (a !=null && (a.getClass().getName()).equals("BankAccount"))
+			{
+				
+				if(status==true && ((BankAccount) a).getAccountNo() == destAccountNo )
 				{
-						((BankAccount) accounts.get(i)).setCurrentBalance((((BankAccount) accounts.get(i)).getCurrentBalance())-amount);
-						((BankAccount) accounts.get(i)).setPreviousTransaction(- amount);
-						status=true;
-						return true;
+					((BankAccount) a).setCurrentBalance((((BankAccount) a).getCurrentBalance())+amount);
+					return true;
 				}
-				if(status==true)
-					if(((BankAccount) accounts.get(i)).getAccountNo() == destAccountNo )
-					{
-						((BankAccount) accounts.get(i)).setCurrentBalance((((BankAccount) accounts.get(i)).getCurrentBalance())+amount);
-					}
 			}
 				
 		}
@@ -304,12 +310,13 @@ public class BankAccount {
 	}
 	
 	public boolean makeDeposit(ArrayList<BankAccount> accounts,String clientID,int sourceAccountNo,int amount) {
-		for(int i=0;i<accounts.size();i++) {
-			if (accounts.get(i) instanceof BankAccount) {
-				if(((BankAccount) accounts.get(i)).getClientID().equals(clientID) && 
-						((BankAccount) accounts.get(i)).getAccountNo() == sourceAccountNo)
+		for(BankAccount a:accounts) {
+			if (a !=null && (a.getClass().getName()).equals("BankAccount"))
+			{
+				if(((BankAccount) a).getClientID().equals(clientID) && 
+						((BankAccount) a).getAccountNo() == sourceAccountNo)
 				{
-					((BankAccount) accounts.get(i)).setCurrentBalance((((BankAccount) accounts.get(i)).getCurrentBalance())+amount);
+					((BankAccount) a).setCurrentBalance((((BankAccount) a).getCurrentBalance())+amount);
 					return true;
 				}
 			}
@@ -318,35 +325,40 @@ public class BankAccount {
 	}
 	
 	public boolean payUtils(ArrayList<BankAccount> accounts,String clientID,int sourceAccountNo,int amount) {
-		for(int i=0;i<accounts.size();i++) {
-			if (accounts.get(i) instanceof BankAccount) {
-				if(((BankAccount) accounts.get(i)).getClientID().equals(clientID) && 
-						((BankAccount) accounts.get(i)).getAccountNo() == sourceAccountNo &&
-						((BankAccount) accounts.get(i)).getCurrentBalance() < amount)
+		for(BankAccount a:accounts) {
+			if (a !=null && (a.getClass().getName()).equals("BankAccount"))
+			{
+				if(((BankAccount) a).getClientID().equals(clientID) && 
+				((BankAccount) a).getAccountNo() == sourceAccountNo ) {
+					if(((BankAccount) a).getCurrentBalance() < amount)
 					
-				{
-					System.out.println("Your account balance is less than the amoun to be payed. Cant do the transaction");
-					return false;
-				}
-				else if(((BankAccount) accounts.get(i)).getClientID().equals(clientID) && 
-						((BankAccount) accounts.get(i)).getAccountNo() == sourceAccountNo &&
-						((BankAccount) accounts.get(i)).getCurrentBalance() >= amount)
-				{
-						((BankAccount) accounts.get(i)).setCurrentBalance((((BankAccount) accounts.get(i)).getCurrentBalance())-amount);
-						((BankAccount) accounts.get(i)).setPreviousTransaction(- amount);
+					{
+						System.out.println("Your account balance is less than the amoun to be payed. Cant do the transaction");
+						return false;
+					}
+				
+				 	if(((BankAccount) a).getCurrentBalance() >= amount)
+				 	{
+						((BankAccount) a).setCurrentBalance((((BankAccount) a).getCurrentBalance())-amount);
+						((BankAccount) a).setPreviousTransaction(-amount);
 						return true;
-				}
+				 	}
+				 }
+				else
+					System.out.println("Transaction failed.Please verify the details entered");
 			}
 		}
+		
 		return false;
 	}
 	
 	public boolean editName(ArrayList<BankAccount> accounts,String clientID,String name)
 	{
-		for(int i=0;i<accounts.size();i++) {
-			if (accounts.get(i) instanceof BankAccount) {
-				if(((BankAccount) accounts.get(i)).getClientID().equals(clientID)) {
-					((BankAccount) accounts.get(i)).setClientName(name);
+		for(BankAccount a:accounts) {
+			if (a !=null && (a.getClass().getName()).equals("BankAccount"))
+			{
+				if(((BankAccount) a).getClientID().equals(clientID)) {
+					((BankAccount) a).setClientName(name);
 					return true;
 				}
 			}
@@ -356,10 +368,11 @@ public class BankAccount {
 	
 	public boolean editContact(ArrayList<BankAccount> accounts,String clientID,String contact)
 	{
-		for(int i=0;i<accounts.size();i++) {
-			if (accounts.get(i) instanceof BankAccount) {
-				if(((BankAccount) accounts.get(i)).getClientID().equals(clientID)) {
-					((BankAccount) accounts.get(i)).setContact(contact);
+		for(BankAccount a:accounts) {
+			if (a !=null && (a.getClass().getName()).equals("BankAccount"))
+			{
+				if(((BankAccount) a).getClientID().equals(clientID)) {
+					((BankAccount) a).setContact(contact);
 					return true;
 				}
 			}

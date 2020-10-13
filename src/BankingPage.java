@@ -21,7 +21,7 @@ public class BankingPage {
 		label:	
 		while (true)
 		{
-			System.out.println("Enter the type of user login :(1 or 2)\n\n \t1.Banker \t\t 2.Customer");
+			System.out.println("Enter the type of user login :(1 or 2)\n\n \t1.Banker \t\t 2.Customer\n");
 			int choice=sc.nextInt();
 			String username=null;
 			String password=null;
@@ -29,7 +29,7 @@ public class BankingPage {
 			int ch =0;
 			
 				switch(choice) {
-				case 1: System.out.println("If existing user PRESS 1 . if you want to create new credentials PRESS 2");
+				case 1: System.out.println("If existing user PRESS 1 . if you want to create new credentials PRESS 2: \n");
 				ch=sc.nextInt();
 				
 				if (ch==1)
@@ -78,7 +78,7 @@ public class BankingPage {
 										for(BankAccount a:accounts)
 											if (a !=null && (a.getClass().getName()).equals("BankAccount"))
 											{
-													((BankAccount) a).listAllAccounts();
+													((BankAccount) a).listAccounts();
 											}
 										break;
 										
@@ -96,8 +96,8 @@ public class BankingPage {
 											for(BankAccount a:accounts) {
 												if (a !=null && (a.getClass().getName()).equals("BankAccount"))
 												{
-													if(((BankAccount) a).isexistusername(ClientID)) {
-														((BankAccount) a).listAccounts(ClientID);
+													if(((BankAccount) a).isExistUsername(ClientID)) {
+														((BankAccount) a).listAccounts();
 														ClientName=((BankAccount) a).getClientName();
 														Contact=((BankAccount) a).getContact();
 														isexist=true;
@@ -167,12 +167,12 @@ public class BankingPage {
 						
 						else 
 						{
-							System.out.println("Login failed .Would you like to retry (y/n) ");
-							String option=sc.next();
-							if (option=="y" || option=="Y") 
+							System.out.println("Login failed .Would you like to retry (Press \n 1 - for retry\n0 - for Quit) ");
+							int option=sc.nextInt();
+							if (option==1) 
 								continue label ; 
 							
-							if (option=="n" || option=="N")
+							if (option==0)
 								System.exit(0);
 						}
 						
@@ -186,15 +186,22 @@ public class BankingPage {
 					password=sc.next();
 					userType="Banker";
 					accounts.add(new LoginPage(username,password,userType));
-//					while (true) {
-//						if(((LoginPage) accounts.get(accounts.size()-1)).isexistusername(accounts) == true){
-//							System.out.println("Reenter the Username as the entered user name is already exist");
-//							username=sc.next();	
-//							((LoginPage) accounts.get(accounts.size()-1)).setUsername(username);
-//						}
-//						else
-//							break;
-//					}
+					boolean stat=true;
+					do {
+						for(BankAccount a:accounts) {
+							if (a !=null && (a.getClass().getName()).equals("Banker"))
+							{
+								if(((Banker) a).isUserExist(username)) {
+									System.out.println("Reenter the Username as the entered user name is already exist\n");
+									username=sc.next();	
+									((LoginPage) accounts.get(accounts.size()-1)).setUsername(username);
+									stat=true;
+								}
+							}
+						if(stat=false)
+							break;
+						}
+					}while(stat=false);
 					((LoginPage) accounts.get(accounts.size()-1)).createLogin();
 					System.exit(0);
 				}
@@ -223,9 +230,9 @@ public class BankingPage {
 							 {
 								 boolean exist=false;
 								 for(BankAccount a:accounts)
-									if (a !=null && (a.getClass().getName()).equals("Banker"))
+									if (a !=null && (a.getClass().getName()).equals("BankAccount"))
 									{
-										exist=((Banker)a).isUserExist(username);
+										exist=((BankAccount)a).isExistUsername(username);
 										if (exist)
 											break;
 									}
@@ -238,19 +245,18 @@ public class BankingPage {
 								int exitChoice=1;
 								do {
 									System.out.println("Select the operation you would like to do\n\n1.View Account \n\n2.Transfer Amount \n\n3.Deposit Amount \n\n4.Pay utilities \n\n5.Update Personal Details\n");
-									System.out.println("Enter the option between 1 to 5");
+									System.out.println("Enter the option between 1 to 5:\n");
 									int ch2=sc.nextInt();
 								
 								
 									switch(ch2)
 									{
 										case 1: 
-											accounts.add(new BankAccount());
 											((BankAccount) accounts.get(accounts.size()-1)).viewaAccountDetails(accounts,username);
+											break;
 										
 										case 2:
 											System.out.println("Your account Details");
-											accounts.add(new BankAccount());
 											((BankAccount) accounts.get(accounts.size()-1)).viewaAccountDetails(accounts,username);
 											System.out.println("Confirm the Account number from which the transaction to be done (from the list shown) ");
 											int sourceAccountNo=sc.nextInt();
@@ -263,24 +269,27 @@ public class BankingPage {
 												System.out.println("Transaction succcessful");
 											else
 												System.out.println("Transaction failed");
+											break;
 											
 										case 3:
 											System.out.println("Your account Details");
-											accounts.add(new BankAccount());
 											((BankAccount) accounts.get(accounts.size()-1)).viewaAccountDetails(accounts,username);
-											System.out.println("Confirm the Account number to be deposited");
+											System.out.println("Confirm the Account number to be deposited\n");
 											int accountNo=sc.nextInt();
-											System.out.println("Enter the Amount to be depoosited");
+											System.out.println("Enter the Amount to be deposited\n");
 											int deposit=sc.nextInt();
 											boolean dep=((BankAccount) accounts.get(accounts.size()-1)).makeDeposit(accounts,username,accountNo,deposit);
 											if(dep)
 												System.out.println("Deposit succcessful");
 											else
 												System.out.println("Deposit failed");
+											break;
 											
 										case 4:
+											System.out.println("Your account Details\n");
+											((BankAccount) accounts.get(accounts.size()-1)).viewaAccountDetails(accounts,username);
 											
-											System.out.println("Select the Utility type to make payment \n1.Mobile Recharge\n2.Electricity Bill\n3.Wifi Bill\n4.Insurance\5.Gas Bill");
+											System.out.println("Select the Utility type to make payment \n1.Mobile Recharge\n2.Electricity Bill\n3.Wifi Bill\n4.Insurance\n5.Gas Bill\n");
 											int util=sc.nextInt();
 											String Utility=null;
 											if (util==1)
@@ -294,40 +303,47 @@ public class BankingPage {
 											else if(util==5)
 												Utility="Gas Bill";
 											
-											System.out.println("Confirm the Account number from which the utils to be payed");
+											System.out.println("\nConfirm the Account number from which the utils to be payed");
 											int accountNum=sc.nextInt();
-											System.out.println("Enter the Amount ");
+											System.out.println("\nEnter the Amount ");
 											int payment=sc.nextInt();
 											accounts.add(new BankAccount());
 											boolean success=((BankAccount) accounts.get(accounts.size()-1)).payUtils(accounts,username,accountNum,payment);
 											if (success)
-												System.out.println("The amount " + payment + " has been payed towards the " +Utility);
+												System.out.println("\nThe amount " + payment + " has been payed towards the " +Utility);
 											else
-												System.out.println("Payment Failed");
+												System.out.println("\nPayment Failed");
+											break;
 											
 										case 5:
-											System.out.println("You can edit the Name and Contact details . Enter your choice to edit \n\n1.Name\n2.Contact ");
+											System.out.println("You can edit the Name and Contact details . Enter your choice to edit \n\n1.Name\n2.Contact \n");
 											int editCh=sc.nextInt();
 											accounts.add(new BankAccount());
 											if (editCh==1) {
-												System.out.println("Enter the New name to be updated");
+												System.out.println("\nEnter the New name to be updated");
 												String name =sc.next();
 												boolean ename=((BankAccount) accounts.get(accounts.size()-1)).editName(accounts,username,name);
-												if(ename)
-													System.out.println("Update name succcessful");
+												if(ename) {
+													
+													System.out.println("\nUpdate name succcessful");
+													((BankAccount) accounts.get(accounts.size()-1)).viewaAccountDetails(accounts,username);
+												}
 												else
-													System.out.println("Update name failed");
+													System.out.println("\nUpdate name failed");
 											}
 											else if(editCh==2)
 											{
-												System.out.println("Enter the New Contact to be updated");
+												System.out.println("\nEnter the New Contact to be updated");
 												String contact =sc.next();
 												boolean econtact=((BankAccount) accounts.get(accounts.size()-1)).editContact(accounts,username,contact);
-												if(econtact)
-													System.out.println("Update contact succcessful");
+												if(econtact) {
+													((BankAccount) accounts.get(accounts.size()-1)).viewaAccountDetails(accounts,username);
+													System.out.println("\nUpdate contact succcessful");
+												}
 												else
-													System.out.println("Update contact failed");
+													System.out.println("\nUpdate contact failed");
 											}
+											break;
 											
 											
 										
@@ -343,12 +359,12 @@ public class BankingPage {
 						
 						else 
 						{
-							System.out.println("Login failed .Would you like to retry (y/n) ");
-							String option=sc.next();
-							if (option=="y" || option=="Y") 
+							System.out.println("Login failed .Would you like to retry (Press \n 1 - for retry \n0 - for Quit) ");
+							int option=sc.nextInt();
+							if (option==1) 
 								continue label ; 
 							
-							if (option=="n" || option=="N")
+							if (option==0)
 								System.exit(0);
 						}
 					}
@@ -362,15 +378,22 @@ public class BankingPage {
 					password=sc.next();
 					userType="Customer";
 					accounts.add(new LoginPage(username,password,userType));
-//					while (true) {
-//						if(((LoginPage) accounts.get(accounts.size()-1)).isexistusername(accounts) == true){
-//							System.out.println("Reenter the Username as the entered user name is already exist");
-//							username=sc.next();	
-//							((LoginPage) accounts.get(accounts.size()-1)).setUsername(username);
-//						}
-//						else
-//							break;
-//					}
+					boolean stat=true;
+					do {
+						for(BankAccount a:accounts) {
+							if (a !=null && (a.getClass().getName()).equals("BankAccount"))
+							{
+								if(((BankAccount) a).isExistUsername(username)) {
+									System.out.println("Reenter the Username as the entered user name is already exist\n");
+									username=sc.next();	
+									((LoginPage) accounts.get(accounts.size()-1)).setUsername(username);
+									stat=true;
+								}
+							}
+						if(stat=false)
+							break;
+						}
+					}while(stat=false);
 					((LoginPage) accounts.get(accounts.size()-1)).createLogin();
 					System.exit(0);
 				}

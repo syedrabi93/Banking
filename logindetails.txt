@@ -2,3 +2,10 @@ Syed,test1,Customer
 Adarsh,test2,Customer
 Kaur,test3,Banker
 Wajeeh,test4,Banker
+Safrina,Mudilada,Banker
+sadf,asdf,Banker
+Syed,Pappu,Customer
+Syed,pappu,Customer
+Kaur,kasd,Banker
+Syed,aasd,Banker
+safr,asd,Banker
