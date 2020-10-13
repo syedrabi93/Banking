@@ -92,11 +92,11 @@ public class LoginPage extends Banker{
 //	        
 //		}
 //	}
-	public boolean isexistusername(ArrayList<BankAccount> accounts) {
+	public boolean isexistusername(ArrayList<BankAccount> accounts,String username) {
 		if(!isFileEmpty()) {
 		for(int i=0;i<accounts.size();i++) {
 			if (accounts.get(i) instanceof LoginPage) {
-				if(((LoginPage) accounts.get(i)).getUsername().equals(this.username)){
+				if(((LoginPage) accounts.get(i)).getUsername().equals(username)){
 					return true;
 				}		
 				
@@ -110,7 +110,7 @@ public class LoginPage extends Banker{
 		
 	public boolean isFileEmpty()
 	{
-		File file=new File("/Users/syedrabi/Project_1/BankingProject/src/logindetails.txt");
+		File file=new File("logindetails.txt");
 		if (file.length()==0)
 			return true;
 		
@@ -121,14 +121,14 @@ public class LoginPage extends Banker{
 		
 	    String credentials =null;
 		try {
-			FileWriter myWriter = new FileWriter("/Users/syedrabi/Project_1/BankingProject/src/logindetails.txt",true);
+			FileWriter myWriter = new FileWriter("logindetails.txt",true);
 			
 			
 			credentials = this.username + "," +this.password + "," + this.userType ;
 			myWriter.write(credentials);
 			myWriter.write("\n");
 			myWriter.close();
-			
+			System.out.println("Login created successfully.Please login from the beginning");
 		
 		}catch (IOException e) {
 	        System.out.println(" cannot write to file " );

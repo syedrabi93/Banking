@@ -1,0 +1,3 @@
+Syed,Savings,SyedRabiyama,9789547607,100001,10000,100
+Adarsh,Savings,Adharshdeep,9876543210,100003,5000,1000
+Syed,Current,SyedRabiyama,9789547607,100004,1000,0

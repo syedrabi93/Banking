@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class Banker extends BankAccount{
 	
@@ -55,7 +56,11 @@ public class Banker extends BankAccount{
 		
 	}
 
-	
+	public boolean isUserExist(String username) {
+				if((this.getUserID().equals(username)))
+					return true;
+		return false;
+	}
 
 }
 
