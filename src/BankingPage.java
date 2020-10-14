@@ -21,7 +21,7 @@ public class BankingPage {
 		label:	
 		while (true)
 		{
-			System.out.println("Enter the type of user login :(1 or 2)\n\n \t1.Banker \t\t 2.Customer\n");
+			System.out.println("Enter the type of user login \n\n \t1.Banker \t\t 2.Customer\n\n Press (1 or 2):");
 			int choice=sc.nextInt();
 			String username=null;
 			String password=null;
@@ -29,15 +29,15 @@ public class BankingPage {
 			int ch =0;
 			
 				switch(choice) {
-				case 1: System.out.println("If existing user PRESS 1 . if you want to create new credentials PRESS 2: \n");
+				case 1: System.out.println(" Existing user PRESS - 1  \n To create new credentials PRESS - 2\n");
 				ch=sc.nextInt();
 				
 				if (ch==1)
 				{
 					
-					System.out.println("enter the Username");
+					System.out.println("Enter the Username");
 					username=sc.next();
-					System.out.println("enter the password");
+					System.out.println("Enter the password");
 					password=sc.next();
 					userType="Banker";
 					boolean status=false;
@@ -59,15 +59,15 @@ public class BankingPage {
 											break;
 									}
 									if(!exist) {
-										System.out.println("You are not an active user to access");
+										System.out.println("You are not an active user. Contact the bank for further details");
 										System.exit(0);
 									}
 									else
 										System.out.println("successfully logged in");
 								int exitChoice=1;
 								do {
-								System.out.println("Select the operation you would like to do\n\n1.List accounts \n\n2.Add account \n\n3. Delete Acount ");
-								System.out.println("Enter your option (1/2/3)");
+								System.out.println("Select the operation you would like to do\n\n1.List accounts \n\n2.Add account \n\n3. Delete Acount\n ");
+								System.out.println("Enter your option (1/2/3):");
 								int opt=sc.nextInt();
 								
 								
@@ -105,7 +105,7 @@ public class BankingPage {
 												}
 											}
 													if(!isexist) {
-														System.out.println("Given ClientID doesn't exist. Please enter the values manually");
+														System.out.println("Given ClientID doesn't exist. Please enter the values manually\n");
 														System.out.println("Enter the Client Name:");
 														ClientName=sc.next();
 														System.out.println("Enter the Contact:");
@@ -120,17 +120,16 @@ public class BankingPage {
 											System.out.println("Enter the Contact:");
 											 Contact=sc.next();
 										}
-										System.out.println("Enter the Account Type to be created:\n\n 1.savings account \t 2 current account");
+										System.out.println("Enter the Account Type to be created:\n\n 1.Savings account \t 2 Current account\n");
 										String accountType=null;
 										int ch1=sc.nextInt();
-										int accountNo=0;
+
 										if(ch1==1)
 											 accountType="Savings";
 										else if (ch1==2)
 											 accountType="Current";
-										for(BankAccount a:accounts) 
-											if (a !=null && (a.getClass().getName()).equals("BankAccount"))
-												accountNo=((BankAccount) a).generateAccountNumber();
+										
+										int accountNo=((BankAccount) accounts.get(accounts.size()-1)).generateAccountNumber();
 										accountNo++;
 										int currentBalance=1000;
 										int previousTransaction=0;
