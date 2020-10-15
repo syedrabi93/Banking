@@ -13,14 +13,14 @@ import java.io.FileWriter;
 
 public class LoginPage extends Banker{
 	
-	public String username;
-	public String password;
-	public String userType;
+	private String username;
+	private String password;
+	private String userType;
 	
 	Scanner sc = new Scanner(System.in);
 
 
-
+	//  Constructor for all members inclusing super class
 	public LoginPage(String clientID, String accountType, String clientName, String contact, int accountNo,
 			int currentBalance, int previousTransaction, String username, String password, String userType) {
 		super(clientID, accountType, clientName, contact, accountNo, currentBalance, previousTransaction);
@@ -29,7 +29,8 @@ public class LoginPage extends Banker{
 		this.userType = userType;
 
 	}
-
+	
+	//Constructor for the members of LoginPage class
 	public LoginPage(String username, String password, String userType) {
 		super();
 		this.username=username;
@@ -38,6 +39,7 @@ public class LoginPage extends Banker{
 		
 	}
 
+	//getters and setters
 	public String getUsername() {
 		return username;
 	}
@@ -63,7 +65,13 @@ public class LoginPage extends Banker{
 	}
 	
 	
-	
+	/*
+	 * Method to validate login credentials based oon user type and credentials
+	 * @params :String username
+	 * 			String password
+	 * 			String userType
+	 * @return : boolean -returns true on successful login
+	 */
 	public boolean login (String username,String password, String userType)  {
 		String uname =null;
 		String passwd=null;
@@ -92,31 +100,13 @@ public class LoginPage extends Banker{
 //	        
 //		}
 //	}
-	public boolean isexistusername(ArrayList<BankAccount> accounts,String username) {
-		if(!isFileEmpty()) {
-		for(int i=0;i<accounts.size();i++) {
-			if (accounts.get(i) instanceof LoginPage) {
-				if(((LoginPage) accounts.get(i)).getUsername().equals(username)){
-					return true;
-				}		
-				
-			}
 		
-		}
-		}
-		
-		return false;
-	}
-		
-	public boolean isFileEmpty()
-	{
-		File file=new File("logindetails.txt");
-		if (file.length()==0)
-			return true;
-		
-		return false;
-	}
-	
+	/*
+	 * Method to create logins for the users /customers on demand
+	 * Method stores logindetails file with new credentials for future usage
+	 * @oaram: null
+	 * @return void
+	 */
 	public void createLogin () throws FileNotFoundException {
 		
 	    String credentials =null;

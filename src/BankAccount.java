@@ -23,9 +23,7 @@ public class BankAccount {
 	protected int previousTransaction;
 	
 	
-	
-	
-	
+	//Constructor for the class BankAccount
 	
 	public BankAccount(String clientID, String accountType, String clientName, String contact, int accountNo,
 			int currentBalance, int previousTransaction) {
@@ -40,13 +38,13 @@ public class BankAccount {
 	
 
 
-
+	//No argument constructor
 	public BankAccount() {
 		// TODO Auto-generated constructor stub
 	}
 
 
-
+    //Get and Set methods
 
 	public String getClientID() {
 		return clientID;
@@ -140,41 +138,56 @@ public class BankAccount {
 	}
 
 
-
-
+	 /*
+	  * This method is lists the restricted account details
+	  * @param : null
+	  * @return: void
+	  * Simply prints the basic customer account details on deman
+	  */
 	
 	public void listAccounts() {
-
+					System.out.println("  "+this.clientID + "           " + this.accountNo + "           " +this.accountType + "       " + this.ClientName + "      " + this.Contact );
 	
-					System.out.println(this.clientID + "\t" + this.accountNo + "\t" +this.accountType + "\t" + this.ClientName + "\t" + this.Contact );
-
-		
 	}
-	
+	/*
+	 * Method to auto generate the Account number for new bank account creation
+	 * @param : null
+	 * @return : int (the possible  previous account number)
+	 */
+
 	public int generateAccountNumber() {
 		int accountnumber=0;
 	
 		File file = new File("AccountDetails.txt");
 		if (file.length() == 0) 
 		{ 
-			accountnumber = 10001;
+			accountnumber = 10000;
 		}
 		else
 			accountnumber= this.accountNo;
 			
 		return accountnumber;
 	}
-	
-	public boolean isExistUsername(String username) {
+	/*
+	 * Method to check if the given client does hold a valid account
+	 * @param ; string ClientID to be validated
+	 * @return: boolean -returns true if the given client exist in bank account list
+	 */
+	public boolean isExistUsername(String clientID) {
 		
-				if((this.getClientID()).equals(username)){
+				if((this.getClientID()).equals(clientID)){
 					return true;
 				}		
 		
 		return false;
 	}
 	
-	
+	/*
+	 * Method to create New account on demand
+	 * This method stores the AccountDetails.txt file with the newly created account details
+	 * @param : no
+	 * @return :void
+	 */
 	
 	public void addAccount() throws FileNotFoundException
 	{
@@ -187,7 +200,8 @@ public class BankAccount {
 			myWriter.write(details);
 			myWriter.write("\n");
 			myWriter.close();
-			System.out.println("Account created successfully \n" +this.clientID + "\t" + this.accountNo + "\t" +this.accountType + "\t" + this.ClientName + "\t" + this.Contact );		
+			System.out.println("Account created successfully \n" +this.clientID + "\t" + this.accountNo + "\t" +this.accountType + "\t" + this.ClientName + "\t" + this.Contact );	
+			System.out.println("\n\nPlease create new login credentials after 24 hours to manage your account if not already exit \n\n\n");
 			
 		} catch (IOException e) {
 	        System.out.println(" cannot write to file " );
@@ -195,7 +209,12 @@ public class BankAccount {
 		}
 	
 	}
-	
+	/**
+	* Method to delete an account
+	* The given account record will be deleted from the array list as well as from the Accountdetails.txt file
+	* @return : void
+	* @param : Arraylist of objects, index of arraylist client iid, account number and the account type to be deleted  
+	*/
 	public void deleteAccount(ArrayList<BankAccount> accounts, int index,String clientID ,String accountType , int accountNo)  throws FileNotFoundException
 	{
 		boolean status =false;
@@ -241,7 +260,16 @@ public class BankAccount {
 		}
 		
 	}
-	
+
+    /**
+     * Determine if the specified number of milliseconds have elapsed since the
+     * ElapsedTimeMonitor was instantiated or reset().
+     *
+     * @param milliseconds
+     *            the number of milliseconds that may have passed
+     * @return true if the specified number of milliseconds have elapsed,
+     *         otherwise false
+     */
 	public void viewaAccountDetails(ArrayList<BankAccount> accounts,String clientID) {
 		
 		for(BankAccount a:accounts)
@@ -252,6 +280,13 @@ public class BankAccount {
 			}
 			
 	}
+	/*
+	 * Method to do transfer of amount from one account to another account within the bank
+	 * @param : Arraylist of objects, String clientID,int sourceAccountNo-source client ID and Account number
+	 * 			int destAccountNo - Destination Account number to be credited 
+	 * 			int amount- Amount to be transfered
+	 * @return : Boolean :returns true on successful transfer completion 
+	 */
 	
 	public boolean makeTransfer(ArrayList<BankAccount> accounts,String clientID,int sourceAccountNo,int destAccountNo,int amount) {
 		boolean status=false;
@@ -308,7 +343,12 @@ public class BankAccount {
 		}
 		return false;
 	}
-	
+	/*
+	 * Method allows the client/customer to make deposit to his/her account
+	 * @paramA :rraylist of obejcts, String clientID,int sourceAccountNo-source client ID and Account number
+	 * 			int amount- Amount to be deposited
+	 * @return ; boolean -on successful deposit completion returns true
+	 */
 	public boolean makeDeposit(ArrayList<BankAccount> accounts,String clientID,int sourceAccountNo,int amount) {
 		for(BankAccount a:accounts) {
 			if (a !=null && (a.getClass().getName()).equals("BankAccount"))
@@ -323,7 +363,12 @@ public class BankAccount {
 		}
 		return false;
 	}
-	
+	/*
+	 * Method allows the client/customer to pay utility bills on demand
+	 * @paramA :Arraylist of objects, String clientID,int sourceAccountNo-source client ID and Account number
+	 * 			int amount- Amount to be payed
+	 * @return ; boolean -on successful payment completion returns true
+	 */
 	public boolean payUtils(ArrayList<BankAccount> accounts,String clientID,int sourceAccountNo,int amount) {
 		for(BankAccount a:accounts) {
 			if (a !=null && (a.getClass().getName()).equals("BankAccount"))
@@ -351,7 +396,12 @@ public class BankAccount {
 		
 		return false;
 	}
-	
+	/*
+	 * Method allows the customer to edit the name on demand
+	 * @param: Array list of objects, string Client ID for which the name change to be done
+	 * 		   String name: New name to be updated
+	 * @return: boolean - on successful update of name returns true
+	 */
 	public boolean editName(ArrayList<BankAccount> accounts,String clientID,String name)
 	{
 		for(BankAccount a:accounts) {
@@ -365,7 +415,12 @@ public class BankAccount {
 		}
 		return false;
 	}
-	
+	/*
+	 * Method allows the customer to update the Contact details on demand
+	 * @param: Array list of objects, string Client ID for which the Contact update to be done
+	 * 		   String contact: New contact to be updated
+	 * @return: boolean - on successful update of contact returns true
+	 */
 	public boolean editContact(ArrayList<BankAccount> accounts,String clientID,String contact)
 	{
 		for(BankAccount a:accounts) {

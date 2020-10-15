@@ -2,9 +2,6 @@ import java.util.ArrayList;
 
 public class Banker extends BankAccount{
 	
-	
-
-
 	private String userID;
 	private String userName;
 	
@@ -25,7 +22,7 @@ public class Banker extends BankAccount{
 		this.userName=userName;
 	}
 
-
+    //No argument constructor
 	public Banker() {
 		
 	}

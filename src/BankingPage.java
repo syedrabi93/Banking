@@ -11,17 +11,21 @@ public class BankingPage {
 	public static void main(String[] args) throws FileNotFoundException {
 		// TODO Auto-generated method stub
 		
+		//Arraylist creation for the superclss BankAccount
 		ArrayList<BankAccount> accounts=new ArrayList<BankAccount>();
 
+		//Call to create default rerecords in file system incase of empty files for testing purpose
 		createDefaultUsers();
+		//Call to initiate the arraylistof objects by parsing files
         parsefile(accounts);
         
 		
-		
+		//goto label for recursive login try on failure
 		label:	
+		//loops until the user opts to quit
 		while (true)
 		{
-			System.out.println("Enter the type of user login \n\n \t1.Banker \t\t 2.Customer\n\n Press (1 or 2):");
+			System.out.println("Enter the type of user login \n\n \t1.Banker \t\t 2.Customer\n\tPress (1 or 2):");
 			int choice=sc.nextInt();
 			String username=null;
 			String password=null;
@@ -29,7 +33,8 @@ public class BankingPage {
 			int ch =0;
 			
 				switch(choice) {
-				case 1: System.out.println(" Existing user PRESS - 1  \n To create new credentials PRESS - 2\n");
+				//if choice of do bankers login & activities
+				case 1: System.out.println("Existing user PRESS              - 1  \nTo create new credentials PRESS - 2\n");
 				ch=sc.nextInt();
 				
 				if (ch==1)
@@ -43,6 +48,7 @@ public class BankingPage {
 					boolean status=false;
 					for(BankAccount a:accounts) {
 						if (a instanceof LoginPage) {
+							//calls login method to validate credentials
 							 status=((LoginPage)a).login(username,password,userType);
 							 if(status==true)
 								 break;
@@ -54,6 +60,7 @@ public class BankingPage {
 								 for(BankAccount a:accounts)
 									if (a !=null && (a.getClass().getName()).equals("Banker"))
 									{
+										//checks if the user is active bank employee
 										exist=((Banker)a).isUserExist(username);
 										if (exist)
 											break;
@@ -63,18 +70,20 @@ public class BankingPage {
 										System.exit(0);
 									}
 									else
-										System.out.println("successfully logged in");
+										System.out.println("successfully logged in\n");
+									
 								int exitChoice=1;
 								do {
-								System.out.println("Select the operation you would like to do\n\n1.List accounts \n\n2.Add account \n\n3. Delete Acount\n ");
-								System.out.println("Enter your option (1/2/3):");
-								int opt=sc.nextInt();
-								
-								
+									
+									System.out.println("Select the operation you would like to do\n\n\t1.List accounts \n\n\t2.Add account \n\n\t3.Delete Acount\n ");
+									System.out.println("Enter your option (1/2/3):");
+									int opt=sc.nextInt();
+									
+									//switch to activities based on user 
 									switch(opt)
 									{
 									case 1:
-										System.out.println("clientID \t accountNo \t accountType \t ClientName \t Contact");
+										System.out.println("| \bClientID  |\t accountNo  |\t accountType  |\t ClientName  |\t    Contact   |");
 										for(BankAccount a:accounts)
 											if (a !=null && (a.getClass().getName()).equals("BankAccount"))
 											{
@@ -86,8 +95,9 @@ public class BankingPage {
 										String ClientID=null;
 										String ClientName=null;
 										String Contact=null;
-										System.out.println("Is the customer already holding any other account(press 1 for yes / 0 for no)");
+										System.out.println("Is the customer already holding any other account (press 1 for yes / 0 for no)");
 										int op1=sc.nextInt();
+										//if exiting user list the exiting accounts and auto populate personal details
 										if (op1==1) 
 										{
 											System.out.println("Enter the Client ID:");
@@ -112,6 +122,7 @@ public class BankingPage {
 														Contact=sc.next();
 													}
 										}
+										//if new customer get the details from user
 										else if(op1==0){
 											System.out.println("Enter the Client ID:");
 											 ClientID=sc.next();
@@ -129,10 +140,12 @@ public class BankingPage {
 										else if (ch1==2)
 											 accountType="Current";
 										
+										//auto generate next possible acccount id
 										int accountNo=((BankAccount) accounts.get(accounts.size()-1)).generateAccountNumber();
 										accountNo++;
 										int currentBalance=1000;
 										int previousTransaction=0;
+										//add new bankaccount objects with new client details.
 										accounts.add(new BankAccount(ClientID,accountType,ClientName,Contact,accountNo,currentBalance,previousTransaction));
 										((BankAccount) accounts.get(accounts.size()-1)).addAccount();
 										break;
@@ -144,6 +157,7 @@ public class BankingPage {
 										System.out.println("confirm the account type to be deleted:");
 										accountType=sc.next();
 										int index=0;
+										//loop through the objects and delete the account
 										for(BankAccount a:accounts) {
 											index++;
 											if (a !=null && (a.getClass().getName()).equals("BankAccount"))
@@ -205,7 +219,7 @@ public class BankingPage {
 					System.exit(0);
 				}
 					
-					
+					//if choice 2 do client login and related activities
 				case 2: System.out.println("If existing user PRESS 1 . if you want to create new credentials PRESS 2");
 				ch=sc.nextInt();
 				
@@ -400,7 +414,12 @@ public class BankingPage {
 		}
 	}
 	
-	
+	/*
+	 * Initial method to parse the files holding Account details, user details and the login details
+	 * and create the array of objects for further use
+	 * @param : Araraylist to add objects of all three classed (BankAccount,LoginPage,Banker) from the corressponding  files 
+	 * @return :void
+	 */
 	public static void parsefile(ArrayList<BankAccount> accounts) throws FileNotFoundException {
 
 		try {
@@ -435,6 +454,14 @@ public class BankingPage {
 	        System.out.println(" cannot read to file UserDetails " );
 		}
 	}
+	
+	/*
+	 * For Test purpose, if incase the files holding account details and logins are empty, it requires to manually insert values and test.
+	 * To avoid that i have added default values that can be used at anytime of building this project if incase the files are empty
+	 * creates default credentails andthe corresponding accounts fortesting purpose
+	 * @param : null
+	 * @return :void
+	 */
 	public static void createDefaultUsers()throws FileNotFoundException{
 		 
 			try {
