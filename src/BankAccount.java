@@ -288,19 +288,20 @@ public class BankAccount {
 	 * @return : Boolean :returns true on successful transfer completion 
 	 */
 	
-	public boolean makeTransfer(ArrayList<BankAccount> accounts,String clientID,int sourceAccountNo,int destAccountNo,int amount) {
+	public boolean makeTransfer(ArrayList<BankAccount> accounts,String clientID,int sourceAccountNo,int destAccountNo,int amount) throws FileNotFoundException {
 		boolean status=false;
 		for(BankAccount a:accounts) {
 			if (a !=null && (a.getClass().getName()).equals("BankAccount"))
 			{
 				if(((BankAccount) a).getAccountNo() == destAccountNo) {
 					status=true;
+					break;
 				}
 			}
 		}
-		if(status=false)
+		if(status==false)
 		{
-			System.out.println("Destination account doesnot exist");
+			System.out.println("Destination account does not exist");
 			return false;
 		}
 
@@ -323,8 +324,8 @@ public class BankAccount {
 						{
 							((BankAccount)a).setCurrentBalance((((BankAccount)a).getCurrentBalance())-amount);
 							((BankAccount) a).setPreviousTransaction(- amount);
+							updateAmount(((BankAccount)a).getClientID(),((BankAccount)a).getAccountNo(),((BankAccount) a).getCurrentBalance(),-amount);
 							status=true;
-							return true;
 						}
 				}
 			}
@@ -336,6 +337,7 @@ public class BankAccount {
 				if(status==true && ((BankAccount) a).getAccountNo() == destAccountNo )
 				{
 					((BankAccount) a).setCurrentBalance((((BankAccount) a).getCurrentBalance())+amount);
+					updateAmount(((BankAccount)a).getClientID(),((BankAccount)a).getAccountNo(),((BankAccount) a).getCurrentBalance(),+amount);
 					return true;
 				}
 			}
@@ -349,7 +351,7 @@ public class BankAccount {
 	 * 			int amount- Amount to be deposited
 	 * @return ; boolean -on successful deposit completion returns true
 	 */
-	public boolean makeDeposit(ArrayList<BankAccount> accounts,String clientID,int sourceAccountNo,int amount) {
+	public boolean makeDeposit(ArrayList<BankAccount> accounts,String clientID,int sourceAccountNo,int amount) throws FileNotFoundException {
 		for(BankAccount a:accounts) {
 			if (a !=null && (a.getClass().getName()).equals("BankAccount"))
 			{
@@ -357,6 +359,7 @@ public class BankAccount {
 						((BankAccount) a).getAccountNo() == sourceAccountNo)
 				{
 					((BankAccount) a).setCurrentBalance((((BankAccount) a).getCurrentBalance())+amount);
+					updateAmount(((BankAccount)a).getClientID(),((BankAccount)a).getAccountNo(),((BankAccount) a).getCurrentBalance(),+amount);
 					return true;
 				}
 			}
@@ -369,7 +372,7 @@ public class BankAccount {
 	 * 			int amount- Amount to be payed
 	 * @return ; boolean -on successful payment completion returns true
 	 */
-	public boolean payUtils(ArrayList<BankAccount> accounts,String clientID,int sourceAccountNo,int amount) {
+	public boolean payUtils(ArrayList<BankAccount> accounts,String clientID,int sourceAccountNo,int amount) throws FileNotFoundException {
 		for(BankAccount a:accounts) {
 			if (a !=null && (a.getClass().getName()).equals("BankAccount"))
 			{
@@ -386,6 +389,7 @@ public class BankAccount {
 				 	{
 						((BankAccount) a).setCurrentBalance((((BankAccount) a).getCurrentBalance())-amount);
 						((BankAccount) a).setPreviousTransaction(-amount);
+						updateAmount(((BankAccount)a).getClientID(),((BankAccount)a).getAccountNo(),((BankAccount) a).getCurrentBalance(),-amount);
 						return true;
 				 	}
 				 }
@@ -404,11 +408,47 @@ public class BankAccount {
 	 */
 	public boolean editName(ArrayList<BankAccount> accounts,String clientID,String name)
 	{
-		for(BankAccount a:accounts) {
+		for(BankAccount a:accounts) 
+		{
 			if (a !=null && (a.getClass().getName()).equals("BankAccount"))
 			{
 				if(((BankAccount) a).getClientID().equals(clientID)) {
 					((BankAccount) a).setClientName(name);
+					try 
+					{
+						File file = new File("AccountDetails.txt");
+						Scanner scan = new Scanner(new File("AccountDetails.txt"));
+						File tempFile = new File("AccountDetails.tmp");
+						PrintWriter pw = new PrintWriter(new FileWriter(tempFile));
+						String updatedline=null;
+						while(scan.hasNext()) {
+							String line = scan.nextLine().toString();
+							String[] details = line.split(",");
+							pw.println(line);
+							pw.flush();
+								if (details[0].equals(clientID))
+								{
+									updatedline=details[0]+","+details[1]+","+name+","+ details[3]+","+details[4]+","+details[5]+","+details[6];
+									pw.println(updatedline);
+									pw.flush();
+								}
+								
+							}
+					
+						pw.close();
+						if (!file.delete()) {
+					        System.out.println("Could not delete file");
+					  
+					      }
+						if (!tempFile.renameTo(file))
+					        System.out.println("Could not rename file");
+
+					}
+				
+					catch (IOException e) 
+					{
+					System.out.println(" cannot update the account details" );
+					}
 					return true;
 				}
 			}
@@ -428,12 +468,83 @@ public class BankAccount {
 			{
 				if(((BankAccount) a).getClientID().equals(clientID)) {
 					((BankAccount) a).setContact(contact);
+					try 
+					{
+						File file = new File("AccountDetails.txt");
+						Scanner scan = new Scanner(new File("AccountDetails.txt"));
+						File tempFile = new File("AccountDetails.tmp");
+						PrintWriter pw = new PrintWriter(new FileWriter(tempFile));
+						String updatedline=null;
+						while(scan.hasNext()) {
+							String line = scan.nextLine().toString();
+							String[] details = line.split(",");
+							pw.println(line);
+							pw.flush();
+								if (details[0].equals(clientID))
+								{
+									updatedline=details[0]+","+details[1]+","+details[2]+","+ contact+","+details[4]+","+details[5]+","+details[6];
+									pw.println(updatedline);
+									pw.flush();
+								}
+								
+							}
+					
+						pw.close();
+						if (!file.delete()) {
+					        System.out.println("Could not delete file");
+					  
+					      }
+						if (!tempFile.renameTo(file))
+					        System.out.println("Could not rename file");
+
+					}
+				
+					catch (IOException e) 
+					{
+					System.out.println(" cannot update the account details" );
+					}
 					return true;
 				}
 			}
 		}
 		return false;
 	}
+	
+	public void updateAmount(String clientID,int sourceAccountNo,int currentAmount ,int diff) throws FileNotFoundException
+	{
+		try 
+		{
+			File file = new File("AccountDetails.txt");
+			Scanner scan = new Scanner(new File("AccountDetails.txt"));
+			File tempFile = new File("AccountDetails.tmp");
+			PrintWriter pw = new PrintWriter(new FileWriter(tempFile));
+			String updatedline=null;
+			while(scan.hasNext()) {
+				String line = scan.nextLine().toString();
+				String[] details = line.split(",");
+				pw.println(line);
+				pw.flush();
+					if ((details[0].equals(clientID) && Integer.parseInt(details[4])==accountNo))
+					{
+						updatedline=details[0]+","+details[1]+","+details[2]+","+ details[3]+","+details[4]+","+currentAmount+","+diff;
+						pw.println(updatedline);
+						pw.flush();
+					}
+					
+				}
+			pw.close();
+			if (!file.delete()) {
+		        System.out.println("Could not delete file");
+		        return;
+		      }
+			if (!tempFile.renameTo(file))
+		        System.out.println("Could not rename file");
 
+			}
+		catch (IOException e) {
+		System.out.println(" cannot update the account details" );
+	        
+		}
+	}
 	
 }

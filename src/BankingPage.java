@@ -18,6 +18,7 @@ public class BankingPage {
 		createDefaultUsers();
 		//Call to initiate the arraylistof objects by parsing files
         parsefile(accounts);
+
         
 		
 		//goto label for recursive login try on failure
@@ -25,7 +26,7 @@ public class BankingPage {
 		//loops until the user opts to quit
 		while (true)
 		{
-			System.out.println("Enter the type of user login \n\n \t1.Banker \t\t 2.Customer\n\tPress (1 or 2):");
+			System.out.println("Enter the type of user login \n\n \t1.Banker \t\t 2.Customer\n\n\n\nPress (1 or 2):");
 			int choice=sc.nextInt();
 			String username=null;
 			String password=null;
@@ -34,15 +35,15 @@ public class BankingPage {
 			
 				switch(choice) {
 				//if choice of do bankers login & activities
-				case 1: System.out.println("Existing user PRESS              - 1  \nTo create new credentials PRESS - 2\n");
+				case 1: System.out.println("\tExisting user PRESS - 1 \n\tTo create new credentials PRESS - 2\n");
 				ch=sc.nextInt();
 				
 				if (ch==1)
 				{
 					
-					System.out.println("Enter the Username");
+					System.out.println("Enter the Username:");
 					username=sc.next();
-					System.out.println("Enter the password");
+					System.out.println("Enter the password:");
 					password=sc.next();
 					userType="Banker";
 					boolean status=false;
@@ -139,9 +140,12 @@ public class BankingPage {
 											 accountType="Savings";
 										else if (ch1==2)
 											 accountType="Current";
-										
+										int accountNo=0;
 										//auto generate next possible acccount id
-										int accountNo=((BankAccount) accounts.get(accounts.size()-1)).generateAccountNumber();
+										for(BankAccount a:accounts) 
+											if (a !=null && (a.getClass().getName()).equals("BankAccount"))
+												accountNo=((BankAccount) a).generateAccountNumber();
+										
 										accountNo++;
 										int currentBalance=1000;
 										int previousTransaction=0;
@@ -173,6 +177,7 @@ public class BankingPage {
 									System.out.println("Do you want to perform any other task\n press 1 to continue \n 0 to quit");
 									exitChoice=sc.nextInt();
 								}while(exitChoice==1);
+								System.out.println("\n\n \t\tThanks you. Loggin out !!");
 								System.exit(0);
 							 }
 					
@@ -220,15 +225,15 @@ public class BankingPage {
 				}
 					
 					//if choice 2 do client login and related activities
-				case 2: System.out.println("If existing user PRESS 1 . if you want to create new credentials PRESS 2");
+				case 2: System.out.println("\tExisting Customer PRESS - 1 \n\tTo create new credentials PRESS - 2\n");
 				ch=sc.nextInt();
 				
 				if (ch==1)
 				{
 					
-					System.out.println("Enter the Username");
+					System.out.println("Enter the Username:");
 					username=sc.next();
-					System.out.println("Enter the password");
+					System.out.println("Enter the password:");
 					password=sc.next();
 					userType="Customer";
 					boolean status=false;
@@ -254,10 +259,10 @@ public class BankingPage {
 										System.exit(0);
 									}
 									else
-										System.out.println("successfully logged in");
+										System.out.println("\t\tSuccessfully logged in\n");
 								int exitChoice=1;
 								do {
-									System.out.println("Select the operation you would like to do\n\n1.View Account \n\n2.Transfer Amount \n\n3.Deposit Amount \n\n4.Pay utilities \n\n5.Update Personal Details\n");
+									System.out.println("Select the operation you would like to do\n\n\t1.View Account \n\n\t2.Transfer Amount \n\n\t3.Deposit Amount \n\n\t4.Pay utilities \n\n\t5.Update Personal Details\n");
 									System.out.println("Enter the option between 1 to 5:\n");
 									int ch2=sc.nextInt();
 								
@@ -364,6 +369,7 @@ public class BankingPage {
 									System.out.println("Do you want to perform any other task\n press 1 to continue \n 0 to quit");
 									exitChoice=sc.nextInt();
 							}while(exitChoice==1);
+								System.out.println("\n\n \t\tThanks you. Loggin out !!");
 							System.exit(0);
 							
 						}
@@ -427,31 +433,37 @@ public class BankingPage {
 			Scanner scan = new Scanner(new File("logindetails.txt"));
 			while(scan.hasNext()) {
 				String line = scan.nextLine().toString();
-				String[] credential = line.split(",");
-				accounts.add(new LoginPage(credential[0],credential[1],credential[2]));
+				if(!line.isEmpty()) {
+					String[] credential = line.split(",");
+					accounts.add(new LoginPage(credential[0],credential[1],credential[2]));
+				}
 			}	
 		}catch (IOException e) {
-	        System.out.println(" cannot read to file logindetails " );
+	        System.out.println("cannot read to file logindetails" );
 		}
 		try {
 			Scanner scan = new Scanner(new File("AccountDetails.txt"));
 			while(scan.hasNext()) {
 				String line = scan.nextLine().toString();
-				String[] details = line.split(",");
-				accounts.add(new BankAccount(details[0],details[1], details[2], details[3],Integer.parseInt(details[4].trim()), Integer.parseInt(details[5].trim()), Integer.parseInt(details[6].trim())));
+				if(!line.isEmpty()) {
+					String[] details = line.split(",");
+					accounts.add(new BankAccount(details[0],details[1], details[2], details[3],Integer.parseInt(details[4].trim()), Integer.parseInt(details[5].trim()), Integer.parseInt(details[6].trim())));
+				}
 			}	
 		}catch (IOException e) {
-	        System.out.println(" cannot read to file AccountDetails" );
+	        System.out.println("cannot read to file AccountDetails" );
 		}try {
 			
 			Scanner scan = new Scanner(new File("UserDetails.txt"));
 			while(scan.hasNext()) {
 				String line = scan.nextLine().toString();
-				String[] user = line.split(",");
-				accounts.add(new Banker(user[0],user[1]));
+				if(!line.isEmpty()) {
+					String[] user = line.split(",");
+					accounts.add(new Banker(user[0],user[1]));
+				}
 			}	
 		}catch (IOException e) {
-	        System.out.println(" cannot read to file UserDetails " );
+	        System.out.println("cannot read to file UserDetails " );
 		}
 	}
 	
