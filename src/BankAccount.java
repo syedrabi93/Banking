@@ -316,7 +316,7 @@ public class BankAccount {
 						if(((BankAccount) a).getCurrentBalance() < amount)
 					
 						{
-							System.out.println("Your account balance is less than the amoun to be transfered. Cant do the transaction");
+							System.out.println("Your Account doesn't have sufficient balance for this transaction. Can't do the transaction");
 							return false;
 						}
 
@@ -372,7 +372,7 @@ public class BankAccount {
 	 * 			int amount- Amount to be payed
 	 * @return ; boolean -on successful payment completion returns true
 	 */
-	public boolean payUtils(ArrayList<BankAccount> accounts,String clientID,int sourceAccountNo,int amount) throws FileNotFoundException {
+	public boolean transaction(ArrayList<BankAccount> accounts,String clientID,int sourceAccountNo,int amount) throws FileNotFoundException {
 		for(BankAccount a:accounts) {
 			if (a !=null && (a.getClass().getName()).equals("BankAccount"))
 			{
@@ -381,7 +381,7 @@ public class BankAccount {
 					if(((BankAccount) a).getCurrentBalance() < amount)
 					
 					{
-						System.out.println("Your account balance is less than the amoun to be payed. Cant do the transaction");
+						System.out.println("Your Account doesn't have sufficient balance for this transaction. Cant do the transaction");
 						return false;
 					}
 				
@@ -393,13 +393,14 @@ public class BankAccount {
 						return true;
 				 	}
 				 }
-				else
-					System.out.println("Transaction failed.Please verify the details entered");
 			}
+				
 		}
 		
 		return false;
 	}
+	
+	
 	/*
 	 * Method allows the customer to edit the name on demand
 	 * @param: Array list of objects, string Client ID for which the name change to be done

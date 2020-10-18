@@ -173,11 +173,15 @@ public class BankingPage {
 												}
 										}
 										break;
+										
+									default:
+										 System.out.println("\nThe Entered option is invalid.Please try again\n");
+										 break;
 									}
-									System.out.println("Do you want to perform any other task\n press 1 to continue \n 0 to quit");
+									System.out.println("Do you want to perform any other task\nPress 1 to continue \n 0 to Quit");
 									exitChoice=sc.nextInt();
 								}while(exitChoice==1);
-								System.out.println("\n\n \t\tThanks you. Loggin out !!");
+								System.out.println("\n\n \t\tThanks you. Logging out !!");
 								System.exit(0);
 							 }
 					
@@ -185,7 +189,7 @@ public class BankingPage {
 						
 						else 
 						{
-							System.out.println("Login failed .Would you like to retry (Press \n 1 - for retry\n0 - for Quit) ");
+							System.out.println("Login failed .Would you like to retry \nPress \n1 - for retry\n0 - for Quit ");
 							int option=sc.nextInt();
 							if (option==1) 
 								continue label ; 
@@ -262,7 +266,7 @@ public class BankingPage {
 										System.out.println("\t\tSuccessfully logged in\n");
 								int exitChoice=1;
 								do {
-									System.out.println("Select the operation you would like to do\n\n\t1.View Account \n\n\t2.Transfer Amount \n\n\t3.Deposit Amount \n\n\t4.Pay utilities \n\n\t5.Update Personal Details\n");
+									System.out.println("Select the operation you would like to do\n\n\t1.View Account \n\n\t2.Transfer Amount \n\n\t3.Deposit Amount \n\n\t4.Withdraw Amount\n\n\t5.Pay utilities \n\n\t6.Update Personal Details\n");
 									System.out.println("Enter the option between 1 to 5:\n");
 									int ch2=sc.nextInt();
 								
@@ -302,8 +306,22 @@ public class BankingPage {
 											else
 												System.out.println("Deposit failed");
 											break;
-											
 										case 4:
+											System.out.println("Your account Details\n");
+											((BankAccount) accounts.get(accounts.size()-1)).viewaAccountDetails(accounts,username);
+											System.out.println("\nConfirm the Account number from which you want to withdraw the amount");
+											int accNum=sc.nextInt();
+											System.out.println("\nEnter the Amount ");
+											int withdrawal=sc.nextInt();
+											accounts.add(new BankAccount());
+											boolean stat=((BankAccount) accounts.get(accounts.size()-1)).transaction(accounts,username,accNum,withdrawal);
+											if (stat)
+												System.out.println("\nThe amount " + withdrawal + " has been withdrawn");
+											else
+												System.out.println("\nTransacction Failed");
+											break;
+											
+										case 5:
 											System.out.println("Your account Details\n");
 											((BankAccount) accounts.get(accounts.size()-1)).viewaAccountDetails(accounts,username);
 											
@@ -326,14 +344,14 @@ public class BankingPage {
 											System.out.println("\nEnter the Amount ");
 											int payment=sc.nextInt();
 											accounts.add(new BankAccount());
-											boolean success=((BankAccount) accounts.get(accounts.size()-1)).payUtils(accounts,username,accountNum,payment);
+											boolean success=((BankAccount) accounts.get(accounts.size()-1)).transaction(accounts,username,accountNum,payment);
 											if (success)
 												System.out.println("\nThe amount " + payment + " has been payed towards the " +Utility);
 											else
-												System.out.println("\nPayment Failed");
+												System.out.println("\nPayment Failed.Please verify the details entered and try again\n");
 											break;
 											
-										case 5:
+										case 6:
 											System.out.println("You can edit the Name and Contact details . Enter your choice to edit \n\n1.Name\n2.Contact \n");
 											int editCh=sc.nextInt();
 											accounts.add(new BankAccount());
@@ -363,10 +381,14 @@ public class BankingPage {
 											}
 											break;
 											
+										 default:
+											 System.out.println("\nThe Entered option is invalid.Please try again\n");
+											 break;
+											
 											
 										
 									}
-									System.out.println("Do you want to perform any other task\n press 1 to continue \n 0 to quit");
+									System.out.println("Do you want to perform any other task\nPress 1 to continue \n 0 to quit");
 									exitChoice=sc.nextInt();
 							}while(exitChoice==1);
 								System.out.println("\n\n \t\tThanks you. Loggin out !!");
@@ -378,7 +400,7 @@ public class BankingPage {
 						
 						else 
 						{
-							System.out.println("Login failed .Would you like to retry (Press \n 1 - for retry \n0 - for Quit) ");
+							System.out.println("Login failed .Would you like to retry \nPress \n1 - for retry \n0 - for Quit ");
 							int option=sc.nextInt();
 							if (option==1) 
 								continue label ; 
@@ -416,7 +438,12 @@ public class BankingPage {
 					((LoginPage) accounts.get(accounts.size()-1)).createLogin();
 					System.exit(0);
 				}
+				default:
+					 System.out.println("\nThe Entered option is invalid.Please try again\n");
+					 break;
 			}
+				
+				
 		}
 	}
 	
