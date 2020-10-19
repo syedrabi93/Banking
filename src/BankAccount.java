@@ -173,7 +173,7 @@ public class BankAccount {
 	 * @param ; string ClientID to be validated
 	 * @return: boolean -returns true if the given client exist in bank account list
 	 */
-	public boolean isExistUsername(String clientID) {
+	public boolean isExistClientID(String clientID) {
 		
 				if((this.getClientID()).equals(clientID)){
 					return true;
@@ -270,7 +270,7 @@ public class BankAccount {
      * @return true if the specified number of milliseconds have elapsed,
      *         otherwise false
      */
-	public void viewaAccountDetails(ArrayList<BankAccount> accounts,String clientID) {
+	public void viewAccountDetails(ArrayList<BankAccount> accounts,String clientID) {
 		
 		for(BankAccount a:accounts)
 			if (a !=null && (a.getClass().getName()).equals("BankAccount"))

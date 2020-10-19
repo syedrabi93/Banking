@@ -107,7 +107,7 @@ public class BankingPage {
 											for(BankAccount a:accounts) {
 												if (a !=null && (a.getClass().getName()).equals("BankAccount"))
 												{
-													if(((BankAccount) a).isExistUsername(ClientID)) {
+													if(((BankAccount) a).isExistClientID(ClientID)) {
 														((BankAccount) a).listAccounts();
 														ClientName=((BankAccount) a).getClientName();
 														Contact=((BankAccount) a).getContact();
@@ -254,7 +254,7 @@ public class BankingPage {
 								 for(BankAccount a:accounts)
 									if (a !=null && (a.getClass().getName()).equals("BankAccount"))
 									{
-										exist=((BankAccount)a).isExistUsername(username);
+										exist=((BankAccount)a).isExistClientID(username);
 										if (exist)
 											break;
 									}
@@ -274,12 +274,12 @@ public class BankingPage {
 									switch(ch2)
 									{
 										case 1: 
-											((BankAccount) accounts.get(accounts.size()-1)).viewaAccountDetails(accounts,username);
+											((BankAccount) accounts.get(accounts.size()-1)).viewAccountDetails(accounts,username);
 											break;
 										
 										case 2:
 											System.out.println("Your account Details");
-											((BankAccount) accounts.get(accounts.size()-1)).viewaAccountDetails(accounts,username);
+											((BankAccount) accounts.get(accounts.size()-1)).viewAccountDetails(accounts,username);
 											System.out.println("Confirm the Account number from which the transaction to be done (from the list shown) ");
 											int sourceAccountNo=sc.nextInt();
 											System.out.println("Enter the Account number for which amount to be transfered");
@@ -295,7 +295,7 @@ public class BankingPage {
 											
 										case 3:
 											System.out.println("Your account Details");
-											((BankAccount) accounts.get(accounts.size()-1)).viewaAccountDetails(accounts,username);
+											((BankAccount) accounts.get(accounts.size()-1)).viewAccountDetails(accounts,username);
 											System.out.println("Confirm the Account number to be deposited\n");
 											int accountNo=sc.nextInt();
 											System.out.println("Enter the Amount to be deposited\n");
@@ -308,7 +308,7 @@ public class BankingPage {
 											break;
 										case 4:
 											System.out.println("Your account Details\n");
-											((BankAccount) accounts.get(accounts.size()-1)).viewaAccountDetails(accounts,username);
+											((BankAccount) accounts.get(accounts.size()-1)).viewAccountDetails(accounts,username);
 											System.out.println("\nConfirm the Account number from which you want to withdraw the amount");
 											int accNum=sc.nextInt();
 											System.out.println("\nEnter the Amount ");
@@ -323,7 +323,7 @@ public class BankingPage {
 											
 										case 5:
 											System.out.println("Your account Details\n");
-											((BankAccount) accounts.get(accounts.size()-1)).viewaAccountDetails(accounts,username);
+											((BankAccount) accounts.get(accounts.size()-1)).viewAccountDetails(accounts,username);
 											
 											System.out.println("Select the Utility type to make payment \n1.Mobile Recharge\n2.Electricity Bill\n3.Wifi Bill\n4.Insurance\n5.Gas Bill\n");
 											int util=sc.nextInt();
@@ -362,7 +362,7 @@ public class BankingPage {
 												if(ename) {
 													
 													System.out.println("\nUpdate name succcessful");
-													((BankAccount) accounts.get(accounts.size()-1)).viewaAccountDetails(accounts,username);
+													((BankAccount) accounts.get(accounts.size()-1)).viewAccountDetails(accounts,username);
 												}
 												else
 													System.out.println("\nUpdate name failed");
@@ -373,7 +373,7 @@ public class BankingPage {
 												String contact =sc.next();
 												boolean econtact=((BankAccount) accounts.get(accounts.size()-1)).editContact(accounts,username,contact);
 												if(econtact) {
-													((BankAccount) accounts.get(accounts.size()-1)).viewaAccountDetails(accounts,username);
+													((BankAccount) accounts.get(accounts.size()-1)).viewAccountDetails(accounts,username);
 													System.out.println("\nUpdate contact succcessful");
 												}
 												else
@@ -424,7 +424,7 @@ public class BankingPage {
 						for(BankAccount a:accounts) {
 							if (a !=null && (a.getClass().getName()).equals("BankAccount"))
 							{
-								if(((BankAccount) a).isExistUsername(username)) {
+								if(((BankAccount) a).isExistClientID(username)) {
 									System.out.println("Reenter the Username as the entered user name is already exist\n");
 									username=sc.next();	
 									((LoginPage) accounts.get(accounts.size()-1)).setUsername(username);
