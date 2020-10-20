@@ -49,9 +49,6 @@ public class Banker extends BankAccount{
 		this.userName = userName;
 	}
 	
-	public void addAccount() {
-		
-	}
 
 	public boolean isUserExist(String username) {
 				if((this.getUserID().equals(username)))
