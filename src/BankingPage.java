@@ -564,7 +564,7 @@ public class BankingPage {
 
 					myWriter2.write(user1);
 					myWriter2.write("\n");
-					myWriter2.write(user1);
+					myWriter2.write(user2);
 					myWriter2.write("\n");
 					myWriter2.close();
 				 }
