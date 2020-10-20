@@ -457,7 +457,7 @@ public class BankingPage {
 
 		try {
 			
-			Scanner scan = new Scanner(new File("logindetails.txt"));
+			Scanner scan = new Scanner(new File("LoginDetails.txt"));
 			while(scan.hasNext()) {
 				String line = scan.nextLine().toString();
 				if(!line.isEmpty()) {
@@ -504,10 +504,10 @@ public class BankingPage {
 	public static void createDefaultUsers()throws FileNotFoundException{
 		 
 			try {
-				 File loginFile= new File("logindetails.txt");
+				 File loginFile= new File("LoginDetails.txt");
 				 
 				 if(loginFile.length()==0) {
-					FileWriter myWriter = new FileWriter("logindetails.txt",true);
+					FileWriter myWriter = new FileWriter("LoginDetails.txt",true);
 					
 					
 					String credentials1 = "Syed,test1,Customer" ;

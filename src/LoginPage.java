@@ -111,7 +111,7 @@ public class LoginPage extends Banker{
 		
 	    String credentials =null;
 		try {
-			FileWriter myWriter = new FileWriter("logindetails.txt",true);
+			FileWriter myWriter = new FileWriter("LoginDetails.txt",true);
 			
 			
 			credentials = this.username + "," +this.password + "," + this.userType ;
